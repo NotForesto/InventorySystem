@@ -15,13 +15,13 @@
             </Label>
          </left>
          <center>
-            <RadioButton mnemonicParsing="false" onAction="#onInHouse" prefHeight="17.0" prefWidth="91.0" text="In-House" BorderPane.alignment="CENTER">
+            <RadioButton fx:id="inHouseButton" mnemonicParsing="false" onAction="#onInHouse" prefHeight="17.0" prefWidth="91.0" selected="true" text="In-House" BorderPane.alignment="CENTER">
                <toggleGroup>
                   <ToggleGroup fx:id="tgroup" />
                </toggleGroup></RadioButton>
          </center>
          <right>
-            <RadioButton mnemonicParsing="false" onAction="#onOutsourced" prefHeight="17.0" prefWidth="131.0" text="Outsourced" toggleGroup="$tgroup" BorderPane.alignment="CENTER" />
+            <RadioButton fx:id="outsourcedButton" mnemonicParsing="false" onAction="#onOutsourced" prefHeight="17.0" prefWidth="131.0" text="Outsourced" toggleGroup="$tgroup" BorderPane.alignment="CENTER" />
          </right>
       </BorderPane>
       <GridPane layoutX="68.0" layoutY="91.0" prefHeight="279.0" prefWidth="251.0">
@@ -43,7 +43,7 @@
             <Label text="Inv" GridPane.rowIndex="2" />
             <Label text="Price/Cost" GridPane.rowIndex="3" />
             <Label text="Max" GridPane.rowIndex="4" />
-            <Label text="Machine ID" GridPane.rowIndex="5" />
+            <Label fx:id="machineID" text="Machine ID" GridPane.rowIndex="5" />
             <TextField editable="false" prefHeight="2.0" prefWidth="94.0" promptText="Auto Gen - Disabled" GridPane.columnIndex="1" />
             <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
@@ -54,7 +54,7 @@
       </GridPane>
       <TextField layoutX="405.0" layoutY="289.0" prefHeight="25.0" prefWidth="113.0" />
       <Label layoutX="346.0" layoutY="293.0" text="Min" />
-      <Button layoutX="321.0" layoutY="420.0" mnemonicParsing="false" text="Save" />
-      <Button layoutX="385.0" layoutY="420.0" mnemonicParsing="false" text="Cancel" />
+      <Button fx:id="saveButton" layoutX="321.0" layoutY="420.0" mnemonicParsing="false" onAction="#onSaveButton" text="Save" />
+      <Button fx:id="cancelButton" layoutX="385.0" layoutY="420.0" mnemonicParsing="false" onAction="#onCancelButton" text="Cancel" />
    </children>
 </AnchorPane>
