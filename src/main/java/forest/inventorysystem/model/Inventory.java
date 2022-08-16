@@ -1,2 +1,4 @@
-package forest.inventorysystem.model;public class Inventory {
+package forest.inventorysystem.model;
+
+public class Inventory {
 }

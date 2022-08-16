@@ -1,2 +1,4 @@
-package forest.inventorysystem.model;public class OutSourced {
+package forest.inventorysystem.model;
+
+public class OutSourced {
 }

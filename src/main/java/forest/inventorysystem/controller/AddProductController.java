@@ -1,2 +1,4 @@
-package forest.inventorysystem.controller;public class AddProductController {
+package forest.inventorysystem.controller;
+
+public class AddProductController {
 }

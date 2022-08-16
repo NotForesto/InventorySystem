@@ -1,9 +1,9 @@
-package forest.inventorysystem;
+package forest.inventorysystem.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-public class HelloController {
+public class MainScreenController {
     @FXML
     private Label welcomeText;
 
