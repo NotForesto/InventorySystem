@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="337.0" prefWidth="948.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="337.0" prefWidth="948.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="forest.inventorysystem.controller.MainScreenController">
    <children>
       <Label layoutX="32.0" layoutY="38.0" text="Inventory Management System">
          <font>
@@ -26,7 +26,7 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <Button layoutX="229.0" layoutY="193.0" mnemonicParsing="false" text="Add" />
+            <Button layoutX="229.0" layoutY="193.0" mnemonicParsing="false" onAction="#toAddPart" text="Add" />
             <Button layoutX="275.0" layoutY="193.0" mnemonicParsing="false" text="Modify" />
             <Button layoutX="337.0" layoutY="193.0" mnemonicParsing="false" text="Delete" />
          </children>

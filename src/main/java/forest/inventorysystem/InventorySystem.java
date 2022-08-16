@@ -1,6 +1,7 @@
 package forest.inventorysystem;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -17,7 +18,9 @@ public class InventorySystem extends Application {
         stage.show();
     }
 
+
     public static void main(String[] args) {
         launch();
     }
+
 }
