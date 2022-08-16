@@ -32,7 +32,7 @@ public class MainScreenController implements Initializable {
     public void toAddProduct(ActionEvent actionEvent) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(InventorySystem.class.getResource("AddProduct.fxml"));
         Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
-        Scene scene = new Scene(fxmlLoader.load(), 525, 617);
+        Scene scene = new Scene(fxmlLoader.load(), 1150, 630);
         stage.setTitle("Add Products");
         stage.setScene(scene);
         stage.show();
@@ -52,7 +52,7 @@ public class MainScreenController implements Initializable {
     public void toProductModify(ActionEvent actionEvent) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(InventorySystem.class.getResource("ModifyProduct.fxml"));
         Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
-        Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+        Scene scene = new Scene(fxmlLoader.load(), 1150, 630);
         stage.setTitle("Modify Products");
         stage.setScene(scene);
         stage.show();
