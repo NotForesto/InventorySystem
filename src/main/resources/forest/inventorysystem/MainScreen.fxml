@@ -27,8 +27,9 @@
                </font>
             </Label>
             <Button layoutX="229.0" layoutY="193.0" mnemonicParsing="false" onAction="#toAddPart" text="Add" />
-            <Button layoutX="275.0" layoutY="193.0" mnemonicParsing="false" text="Modify" />
+            <Button layoutX="275.0" layoutY="193.0" mnemonicParsing="false" onAction="#toPartsModify" text="Modify" />
             <Button layoutX="337.0" layoutY="193.0" mnemonicParsing="false" text="Delete" />
+            <TextField layoutX="228.0" layoutY="7.0" promptText="Search by Part ID or Name" />
          </children>
       </AnchorPane>
       <AnchorPane layoutX="478.0" layoutY="71.0" prefHeight="224.0" prefWidth="409.0" style="-fx-border-color: black; -fx-border-radius: 10;">
@@ -47,8 +48,9 @@
                </font>
             </Label>
             <Button layoutX="229.0" layoutY="193.0" mnemonicParsing="false" onAction="#toAddProduct" text="Add" />
-            <Button layoutX="275.0" layoutY="193.0" mnemonicParsing="false" text="Modify" />
+            <Button layoutX="275.0" layoutY="193.0" mnemonicParsing="false" onAction="#toProductModify" text="Modify" />
             <Button layoutX="337.0" layoutY="193.0" mnemonicParsing="false" text="Delete" />
+            <TextField layoutX="228.0" layoutY="7.0" promptText="Search by Product ID or Name" />
          </children>
       </AnchorPane>
    </children>
