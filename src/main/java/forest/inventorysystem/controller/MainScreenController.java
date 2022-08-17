@@ -42,12 +42,14 @@ public class MainScreenController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
 
+        // Grabs all parts in inventory and maps them to correct columns
         MainPartsTable.setItems(Inventory.getAllParts());
         PartIDCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         PartNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         PartInventoryLevelCol.setCellValueFactory(new PropertyValueFactory<>("stock"));
         PartPricePerUnitCol.setCellValueFactory(new PropertyValueFactory<>("price"));
 
+        // Grabs all products in inventory and maps them to correct columns
         MainProductsTable.setItems(Inventory.getAllProducts());
         ProductIDCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         ProductNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -97,4 +99,6 @@ public class MainScreenController implements Initializable {
         stage.show();
 
     }
+
+
 }

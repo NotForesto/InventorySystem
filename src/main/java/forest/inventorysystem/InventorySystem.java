@@ -44,6 +44,7 @@ public class InventorySystem extends Application {
         Inventory.addProduct(testProduct);
         Inventory.addProduct(testProduct2);
 
+        // Launches GUI
         launch();
     }
 
