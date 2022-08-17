@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -17,6 +18,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class MainScreenController implements Initializable {
+    @FXML
+    private Button exitButton;
     @FXML
     private TableView<Part> MainPartsTable;
     @FXML
@@ -101,4 +104,9 @@ public class MainScreenController implements Initializable {
     }
 
 
+    // Closes application when the "Exit" button is pressed on the MainScreen form.
+    public void onExitButton(ActionEvent actionEvent) {
+        Stage stage = (Stage) exitButton.getScene().getWindow();
+        stage.close();
+    }
 }

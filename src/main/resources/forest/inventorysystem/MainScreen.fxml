@@ -53,5 +53,6 @@
             <TextField layoutX="228.0" layoutY="7.0" promptText="Search by Product ID or Name" />
          </children>
       </AnchorPane>
+      <Button fx:id="exitButton" layoutX="795.0" layoutY="308.0" mnemonicParsing="false" onAction="#onExitButton" text="Exit" />
    </children>
 </AnchorPane>
