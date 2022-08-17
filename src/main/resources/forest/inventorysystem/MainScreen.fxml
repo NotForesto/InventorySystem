@@ -13,7 +13,7 @@
       </Label>
       <AnchorPane layoutX="34.0" layoutY="71.0" prefHeight="224.0" prefWidth="409.0" style="-fx-border-color: black; -fx-border-radius: 10;">
          <children>
-            <TableView layoutX="23.0" layoutY="37.0" prefHeight="150.0" prefWidth="378.0" AnchorPane.topAnchor="36.0">
+            <TableView fx:id="MainPartsTable" layoutX="23.0" layoutY="37.0" prefHeight="150.0" prefWidth="378.0" AnchorPane.topAnchor="36.0">
               <columns>
                 <TableColumn fx:id="PartIDCol" prefWidth="53.0" text="Part ID" />
                 <TableColumn fx:id="PartNameCol" prefWidth="76.0" text="Part Name" />
@@ -34,7 +34,7 @@
       </AnchorPane>
       <AnchorPane layoutX="478.0" layoutY="71.0" prefHeight="224.0" prefWidth="409.0" style="-fx-border-color: black; -fx-border-radius: 10;">
          <children>
-            <TableView layoutX="23.0" layoutY="37.0" prefHeight="150.0" prefWidth="378.0" AnchorPane.topAnchor="36.0">
+            <TableView fx:id="MainProductsTable" layoutX="23.0" layoutY="37.0" prefHeight="150.0" prefWidth="378.0" AnchorPane.topAnchor="36.0">
                <columns>
                   <TableColumn fx:id="ProductIDCol" prefWidth="71.0" text="Product ID" />
                   <TableColumn fx:id="ProductNameCol" prefWidth="88.0" text="Product Name" />

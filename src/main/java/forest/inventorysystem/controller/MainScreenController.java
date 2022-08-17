@@ -1,20 +1,59 @@
 package forest.inventorysystem.controller;
 
 import forest.inventorysystem.InventorySystem;
+import forest.inventorysystem.model.*;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class MainScreenController implements Initializable {
+    @FXML
+    private TableView<Part> MainPartsTable;
+    @FXML
+    private TableColumn<Part, Integer> PartIDCol;
+    @FXML
+    private TableColumn<Part, String> PartNameCol;
+    @FXML
+    private TableColumn<Part, Integer> PartInventoryLevelCol;
+    @FXML
+    private TableColumn<Part, Double> PartPricePerUnitCol;
+    @FXML
+    private TableColumn<Product, Integer> ProductIDCol;
+    @FXML
+     private TableColumn<Product, String> ProductNameCol;
+    @FXML
+    private TableColumn<Product, Integer> ProductInventoryLevelCol;
+    @FXML
+    private TableColumn<Product, Double> ProductPricePerUnitCol;
+    @FXML
+    private TableView<Product> MainProductsTable;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+
+        MainPartsTable.setItems(Inventory.getAllParts());
+        PartIDCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        PartNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        PartInventoryLevelCol.setCellValueFactory(new PropertyValueFactory<>("stock"));
+        PartPricePerUnitCol.setCellValueFactory(new PropertyValueFactory<>("price"));
+
+        MainProductsTable.setItems(Inventory.getAllProducts());
+        ProductIDCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        ProductNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        ProductInventoryLevelCol.setCellValueFactory(new PropertyValueFactory<>("stock"));
+        ProductPricePerUnitCol.setCellValueFactory(new PropertyValueFactory<>("price"));
+
 
     }
 
@@ -56,5 +95,6 @@ public class MainScreenController implements Initializable {
         stage.setTitle("Modify Products");
         stage.setScene(scene);
         stage.show();
+
     }
 }
