@@ -2,6 +2,7 @@ package forest.inventorysystem.controller;
 
 import forest.inventorysystem.InventorySystem;
 import forest.inventorysystem.model.InHouse;
+import forest.inventorysystem.model.Outsourced;
 import forest.inventorysystem.model.Part;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -48,20 +49,27 @@ public class ModifyPartController {
 
     /**
      * This method accepts a person to initialize on scene load
+     *
      * @param part
      */
 
-    // Still needs if statement to switch between InHouse and Outsourced
     public void initialize(Part part) {
-
         selectedPart = part;
+
+        if (selectedPart instanceof InHouse) {
+            inHouseButton.fire();
+            machineIdText.setText(Integer.toString(((InHouse) selectedPart).getMachineId()));
+        } else if (selectedPart instanceof Outsourced) {
+            outsourcedButton.fire();
+            machineIdText.setText(((Outsourced) selectedPart).getCompanyName());
+        }
+
         idText.setText(Integer.toString(selectedPart.getId()));
         nameText.setText(selectedPart.getName());
         invText.setText(Integer.toString(selectedPart.getStock()));
         priceText.setText(Double.toString(selectedPart.getPrice()));
         maxText.setText(Integer.toString(selectedPart.getMax()));
         minText.setText(Integer.toString(selectedPart.getMin()));
-
     }
 
 
@@ -82,7 +90,7 @@ public class ModifyPartController {
     // When the Cancel button is clicked, user is returned to MainScreen
     public void onCancelButton(ActionEvent actionEvent) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(InventorySystem.class.getResource("MainScreen.fxml"));
-        Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         Scene scene = new Scene(fxmlLoader.load(), 948, 337);
         stage.setTitle("C482 - Performance Assessment");
         stage.setScene(scene);

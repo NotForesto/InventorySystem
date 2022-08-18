@@ -18,7 +18,7 @@ public class InHouse extends Part {
         this.machineId = machineID;
     }
 
-    // machineId setter allows machineID to be accessed without accessing the private int directly
+    // machineId getter allows machineID to be accessed without accessing the private int directly
     public int getMachineId() {
         return machineId;
     }

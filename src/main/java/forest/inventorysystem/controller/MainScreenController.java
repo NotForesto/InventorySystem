@@ -93,9 +93,6 @@ public class MainScreenController implements Initializable {
 
     // Loads the PartsModify form when the "Modify" button is pressed in the parts section of the MainScreen form.
     public void toPartsModify(ActionEvent actionEvent) throws IOException {
-        // work in progress
-        Part partToModify = MainPartsTable.getSelectionModel().getSelectedItem();
-
         FXMLLoader fxmlLoader = new FXMLLoader(InventorySystem.class.getResource("ModifyPart.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         Scene scene = new Scene(fxmlLoader.load(), 670, 580);
@@ -104,7 +101,6 @@ public class MainScreenController implements Initializable {
         stage.setTitle("Modify Parts");
         stage.setScene(scene);
         stage.show();
-
 
     }
 
