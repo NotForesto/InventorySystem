@@ -24,9 +24,9 @@ import java.util.ResourceBundle;
 
 public class MainScreenController implements Initializable {
     @FXML
-    private TextField ProductSearchField;
+    private TextField PartSearchField;
     @FXML
-    private TextField partSearchField;
+    private TextField ProductSearchField;
     @FXML
     private Button exitButton;
     @FXML
@@ -129,7 +129,7 @@ public class MainScreenController implements Initializable {
 
     // Parts Table on main screen search. Calls searchByPartName and searchByPartID methods
     public void onPartsSearchField(ActionEvent actionEvent) {
-        String q = partSearchField.getText();
+        String q = PartSearchField.getText();
         ObservableList<Part> parts = searchByPartName(q);
 
         if (parts.size() == 0) {
@@ -145,7 +145,7 @@ public class MainScreenController implements Initializable {
         }
 
         MainPartsTable.setItems(parts);
-        partSearchField.setText("");
+        PartSearchField.setText("");
     }
 
     // Method to search by PartName. Looks at parts that contain the text, doesn't require full string.
