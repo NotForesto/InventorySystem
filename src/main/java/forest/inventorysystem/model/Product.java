@@ -1,6 +1,5 @@
 package forest.inventorysystem.model;
 
-import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -55,6 +54,5 @@ public class Product {
         associatedParts.remove(selectedAssociatedPart);
         return true;
     }
-
 
 }

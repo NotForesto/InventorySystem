@@ -4,7 +4,6 @@ import forest.inventorysystem.InventorySystem;
 import forest.inventorysystem.model.InHouse;
 import forest.inventorysystem.model.Inventory;
 import forest.inventorysystem.model.Outsourced;
-import forest.inventorysystem.model.Part;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +16,8 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+
+import static forest.inventorysystem.InventorySystem.partIdIncrement;
 
 public class AddPartController {
 
@@ -58,7 +59,7 @@ public class AddPartController {
 
 
     public void onSaveButton(ActionEvent actionEvent) throws IOException {
-        int id = Integer.parseInt(idText.getText());
+        int id = partIdIncrement();
         String name = nameText.getText();
         double price = Double.parseDouble(priceText.getText());
         int stock = Integer.parseInt(invText.getText());

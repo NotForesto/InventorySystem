@@ -54,6 +54,8 @@ public class MainScreenController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
 
+
+
         // Grabs all parts in inventory and maps them to correct columns
         MainPartsTable.setItems(Inventory.getAllParts());
         PartIDCol.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -131,7 +133,6 @@ public class MainScreenController implements Initializable {
     public void onPartsSearchField(ActionEvent actionEvent) {
         String q = PartSearchField.getText();
         ObservableList<Part> parts = searchByPartName(q);
-
         if (parts.size() == 0) {
             try {
                 int id = Integer.parseInt(q);
@@ -139,9 +140,7 @@ public class MainScreenController implements Initializable {
                 if (part != null) {
                     parts.add(part);
                 }
-            } catch (NumberFormatException e) {
-
-            }
+            } catch (NumberFormatException ignored) { }
         }
 
         MainPartsTable.setItems(parts);
@@ -164,10 +163,7 @@ public class MainScreenController implements Initializable {
     // Method to search by PartID. Requires exact ID match to find part
     private Part searchByPartID(int id) {
         ObservableList<Part> allParts = Inventory.getAllParts();
-
-        for (int i = 0; i < allParts.size(); i++) {
-            Part namedPart = allParts.get(i);
-
+        for (Part namedPart : allParts) {
             if (namedPart.getId() == id) {
                 return namedPart;
             }
@@ -187,9 +183,7 @@ public class MainScreenController implements Initializable {
                 if (product != null) {
                     products.add(product);
                 }
-            } catch (NumberFormatException e) {
-
-            }
+            } catch (NumberFormatException ignored) { }
         }
 
         MainProductsTable.setItems(products);
@@ -212,10 +206,7 @@ public class MainScreenController implements Initializable {
     // Method to search by ProductID. Requires exact ID match to find product
     private Product searchByProductID(int id) {
         ObservableList<Product> allProducts = Inventory.getAllProducts();
-
-        for (int i = 0; i < allProducts.size(); i++) {
-            Product namedProduct = allProducts.get(i);
-
+        for (Product namedProduct : allProducts) {
             if (namedProduct.getId() == id) {
                 return namedProduct;
             }

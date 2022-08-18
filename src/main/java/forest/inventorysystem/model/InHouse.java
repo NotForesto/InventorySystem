@@ -1,5 +1,7 @@
 package forest.inventorysystem.model;
 
+import forest.inventorysystem.InventorySystem;
+
 public class InHouse extends Part {
 
     // Declare private int machineId
