@@ -31,6 +31,7 @@ public class InventorySystem extends Application {
         // Create test products
         Product testProduct = new Product(1, "TestProduct", 199.99, 10, 1, 100);
         Product testProduct2 = new Product(2, "TestProduct2", 199.99, 10, 1, 100);
+        Product newProduct1 = new Product(53, "newProduct1", 19.99, 10, 10, 100);
 
         // Associate test parts with test products
         testProduct.addAssociatedPart(testPart);
@@ -43,6 +44,7 @@ public class InventorySystem extends Application {
         Inventory.addPart(outPart1);
         Inventory.addProduct(testProduct);
         Inventory.addProduct(testProduct2);
+        Inventory.addProduct(newProduct1);
 
         // Launches GUI
         launch();
