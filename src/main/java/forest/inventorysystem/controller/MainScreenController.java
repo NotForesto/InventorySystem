@@ -149,11 +149,12 @@ public class MainScreenController implements Initializable {
     }
 
     // Method to search by PartName. Looks at parts that contain the text, doesn't require full string.
+    // toLowerCase() is set on both namedPart and partialName as to not be case-sensitive in search
     private ObservableList<Part> searchByPartName(String partialName) {
         ObservableList<Part> namedParts = FXCollections.observableArrayList();
         ObservableList<Part> allParts = Inventory.getAllParts();
         for (Part namedPart : allParts) {
-            if (namedPart.getName().contains(partialName)) {
+            if (namedPart.getName().toLowerCase().contains(partialName.toLowerCase())) {
                 namedParts.add(namedPart);
             }
         }
@@ -196,11 +197,12 @@ public class MainScreenController implements Initializable {
     }
 
     // Method to search by ProductName. Looks at products that contain the text, doesn't require full string.
+    // toLowerCase() is set on both namedProduct and partialName as to not be case-sensitive in search
     private ObservableList<Product> searchByProductName(String partialName) {
         ObservableList<Product> namedProducts = FXCollections.observableArrayList();
         ObservableList<Product> allProducts = Inventory.getAllProducts();
         for (Product namedProduct : allProducts) {
-            if (namedProduct.getName().contains(partialName)) {
+            if (namedProduct.getName().toLowerCase().contains(partialName.toLowerCase())) {
                 namedProducts.add(namedProduct);
             }
         }
