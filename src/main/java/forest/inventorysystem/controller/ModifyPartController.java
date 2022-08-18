@@ -1,6 +1,8 @@
 package forest.inventorysystem.controller;
 
 import forest.inventorysystem.InventorySystem;
+import forest.inventorysystem.model.InHouse;
+import forest.inventorysystem.model.Part;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,11 +13,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import forest.inventorysystem.model.InHouse;
 
 import java.io.IOException;
 
 public class ModifyPartController {
 
+    @FXML
+    private TextField minText;
     @FXML
     private RadioButton inHouseButton;
     @FXML
@@ -39,6 +44,25 @@ public class ModifyPartController {
     @FXML
     private TextField idText;
 
+    private Part selectedPart;
+
+    /**
+     * This method accepts a person to initialize on scene load
+     * @param part
+     */
+
+    // Still needs if statement to switch between InHouse and Outsourced
+    public void initialize(Part part) {
+
+        selectedPart = part;
+        idText.setText(Integer.toString(selectedPart.getId()));
+        nameText.setText(selectedPart.getName());
+        invText.setText(Integer.toString(selectedPart.getStock()));
+        priceText.setText(Double.toString(selectedPart.getPrice()));
+        maxText.setText(Integer.toString(selectedPart.getMax()));
+        minText.setText(Integer.toString(selectedPart.getMin()));
+
+    }
 
 
     // When In-House radio button is selected, Machine ID field is available.

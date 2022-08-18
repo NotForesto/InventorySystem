@@ -1,20 +1,62 @@
 package forest.inventorysystem.controller;
 
 import forest.inventorysystem.InventorySystem;
+import forest.inventorysystem.model.Part;
+import forest.inventorysystem.model.Product;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
 public class ModifyProductController {
-    public Button addButton;
-    public Button saveButton;
-    public Button cancelButton;
-    public Button removePartsButton;
+    @FXML
+    private TextField nameText;
+    @FXML
+    private TextField minText;
+    @FXML
+    private TextField maxText;
+    @FXML
+    private TextField priceText;
+    @FXML
+    private TextField invText;
+    @FXML
+    private Button addButton;
+
+    @FXML
+    private Button saveButton;
+    @FXML
+    private Button cancelButton;
+    @FXML
+    private Button removePartsButton;
+    @FXML
+    private TextField idText;
+
+    private Product selectedProduct;
+
+    /**
+     * This method accepts a product to initialize on scene load
+     * @param product
+     */
+
+    // Still needs if statement to switch between InHouse and Outsourced
+    public void initialize(Product product) {
+
+        selectedProduct = product;
+        idText.setText(Integer.toString(selectedProduct.getId()));
+        nameText.setText(selectedProduct.getName());
+        invText.setText(Integer.toString(selectedProduct.getStock()));
+        priceText.setText(Double.toString(selectedProduct.getPrice()));
+        maxText.setText(Integer.toString(selectedProduct.getMax()));
+        minText.setText(Integer.toString(selectedProduct.getMin()));
+
+    }
+
 
     public void onAddButton(ActionEvent actionEvent) {
     }

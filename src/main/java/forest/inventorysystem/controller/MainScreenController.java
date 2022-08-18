@@ -99,6 +99,8 @@ public class MainScreenController implements Initializable {
         FXMLLoader fxmlLoader = new FXMLLoader(InventorySystem.class.getResource("ModifyPart.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         Scene scene = new Scene(fxmlLoader.load(), 670, 580);
+        ModifyPartController controller = fxmlLoader.getController();
+        controller.initialize(MainPartsTable.getSelectionModel().getSelectedItem());
         stage.setTitle("Modify Parts");
         stage.setScene(scene);
         stage.show();
@@ -111,6 +113,8 @@ public class MainScreenController implements Initializable {
         FXMLLoader fxmlLoader = new FXMLLoader(InventorySystem.class.getResource("ModifyProduct.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         Scene scene = new Scene(fxmlLoader.load(), 1150, 630);
+        ModifyProductController controller = fxmlLoader.getController();
+        controller.initialize(MainProductsTable.getSelectionModel().getSelectedItem());
         stage.setTitle("Modify Products");
         stage.setScene(scene);
         stage.show();
