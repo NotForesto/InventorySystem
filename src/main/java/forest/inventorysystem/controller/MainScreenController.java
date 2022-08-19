@@ -11,16 +11,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.ResourceBundle;
+
+import static forest.inventorysystem.model.Inventory.*;
 
 public class MainScreenController implements Initializable {
     @FXML
@@ -52,9 +52,6 @@ public class MainScreenController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
-
-
 
         // Grabs all parts in inventory and maps them to correct columns
         MainPartsTable.setItems(Inventory.getAllParts());
@@ -116,11 +113,34 @@ public class MainScreenController implements Initializable {
         stage.show();
     }
 
+    // Deletes selected/highlighted part in MainScreen PartsTable
+    // If deletePart() returns false (no part deleted), alert user that no part was deleted.
     public void onPartsDelete(ActionEvent actionEvent) {
+        Part selectedPart = MainPartsTable.getSelectionModel().getSelectedItem();
 
+        if (Inventory.deletePart(selectedPart)) {
+            MainPartsTable.setItems(Inventory.getAllParts());
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Part not deleted");
+            alert.setTitle("Error: Part not deleted!");
+            alert.setHeaderText("");
+            alert.show();
+        }
     }
 
+    // Deletes selected/highlighted product in MainScreen ProductTable
+    // If deleteProduct() returns false (no product deleted), alert user that no product was deleted.
     public void onProductDelete(ActionEvent actionEvent) {
+        Product selectedProduct = MainProductsTable.getSelectionModel().getSelectedItem();
+
+        if (Inventory.deleteProduct(selectedProduct)) {
+            MainProductsTable.setItems(Inventory.getAllProducts());
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Product not deleted");
+            alert.setTitle("Error: Product not deleted!");
+            alert.setHeaderText("");
+            alert.show();
+        }
     }
 
     // Closes application when the "Exit" button is pressed on the MainScreen form.
@@ -132,86 +152,51 @@ public class MainScreenController implements Initializable {
     // Parts Table on main screen search. Calls searchByPartName and searchByPartID methods
     public void onPartsSearchField(ActionEvent actionEvent) {
         String q = PartSearchField.getText();
-        ObservableList<Part> parts = searchByPartName(q);
+        ObservableList<Part> parts = lookupPart(q);
         if (parts.size() == 0) {
             try {
-                int id = Integer.parseInt(q);
-                Part part = searchByPartID(id);
+                int partID = Integer.parseInt(q);
+                Part part = lookupPart(partID);
                 if (part != null) {
                     parts.add(part);
                 }
-            } catch (NumberFormatException ignored) { }
+            } catch (NumberFormatException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Your query:\n" + PartSearchField.getText() + "\nDid not return any parts.");
+                alert.setTitle("Error: Part not found!");
+                alert.setHeaderText("");
+                alert.show();
+            }
         }
-
         MainPartsTable.setItems(parts);
         PartSearchField.setText("");
     }
 
-    // Method to search by PartName. Looks at parts that contain the text, doesn't require full string.
-    // toLowerCase() is set on both namedPart and partialName as to not be case-sensitive in search
-    private ObservableList<Part> searchByPartName(String partialName) {
-        ObservableList<Part> namedParts = FXCollections.observableArrayList();
-        ObservableList<Part> allParts = Inventory.getAllParts();
-        for (Part namedPart : allParts) {
-            if (namedPart.getName().toLowerCase().contains(partialName.toLowerCase())) {
-                namedParts.add(namedPart);
-            }
-        }
-        return namedParts;
-    }
-
-    // Method to search by PartID. Requires exact ID match to find part
-    private Part searchByPartID(int id) {
-        ObservableList<Part> allParts = Inventory.getAllParts();
-        for (Part namedPart : allParts) {
-            if (namedPart.getId() == id) {
-                return namedPart;
-            }
-        }
-        return null;
-    }
 
     // Product Table on main screen search. Calls searchByProductName and searchByProductID methods
     public void onProductsSearchField(ActionEvent actionEvent) {
         String q = ProductSearchField.getText();
-        ObservableList<Product> products = searchByProductName(q);
+        ObservableList<Product> products = lookupProduct(q);
 
         if (products.size() == 0) {
             try {
                 int id = Integer.parseInt(q);
-                Product product = searchByProductID(id);
+                Product product = lookupProduct(id);
                 if (product != null) {
                     products.add(product);
                 }
-            } catch (NumberFormatException ignored) { }
+            } catch (NumberFormatException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Your query:\n" + ProductSearchField.getText() + "\nDid not return any products.");
+                alert.setTitle("ERROR: Product not found");
+                alert.setHeaderText("");
+                alert.show();
+            }
         }
 
         MainProductsTable.setItems(products);
         ProductSearchField.setText("");
     }
 
-    // Method to search by ProductName. Looks at products that contain the text, doesn't require full string.
-    // toLowerCase() is set on both namedProduct and partialName as to not be case-sensitive in search
-    private ObservableList<Product> searchByProductName(String partialName) {
-        ObservableList<Product> namedProducts = FXCollections.observableArrayList();
-        ObservableList<Product> allProducts = Inventory.getAllProducts();
-        for (Product namedProduct : allProducts) {
-            if (namedProduct.getName().toLowerCase().contains(partialName.toLowerCase())) {
-                namedProducts.add(namedProduct);
-            }
-        }
-        return namedProducts;
-    }
 
-    // Method to search by ProductID. Requires exact ID match to find product
-    private Product searchByProductID(int id) {
-        ObservableList<Product> allProducts = Inventory.getAllProducts();
-        for (Product namedProduct : allProducts) {
-            if (namedProduct.getId() == id) {
-                return namedProduct;
-            }
-        }
-        return null;
-    }
+
 
 }
