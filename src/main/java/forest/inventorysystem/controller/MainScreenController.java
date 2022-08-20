@@ -16,8 +16,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.NetworkInterface;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import static forest.inventorysystem.model.Inventory.*;
@@ -117,14 +119,25 @@ public class MainScreenController implements Initializable {
     // If deletePart() returns false (no part deleted), alert user that no part was deleted.
     public void onPartsDelete(ActionEvent actionEvent) {
         Part selectedPart = MainPartsTable.getSelectionModel().getSelectedItem();
+        Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete the selected part?");
+        confirmation.setTitle("Confirm Deletion");
+        confirmation.setHeaderText("Delete \"" + selectedPart.getName() + "\"?");
+        Optional<ButtonType> result = confirmation.showAndWait();
 
-        if (Inventory.deletePart(selectedPart)) {
-            MainPartsTable.setItems(Inventory.getAllParts());
+        if(result.isEmpty() || result.get() != ButtonType.OK) {
+            Alert notDeleted = new Alert(Alert.AlertType.INFORMATION, "The selected part has not been deleted.");
+            notDeleted.setTitle("Cancelled");
+            notDeleted.setHeaderText("Part \"" + selectedPart.getName() + "\" not deleted.");
+            notDeleted.showAndWait();
         } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Part not deleted");
-            alert.setTitle("Error: Part not deleted!");
-            alert.setHeaderText("");
-            alert.show();
+            if (Inventory.deletePart(selectedPart)) {
+                MainPartsTable.setItems(Inventory.getAllParts());
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Part not deleted");
+                alert.setTitle("Error: Part not deleted!");
+                alert.setHeaderText("");
+                alert.show();
+            }
         }
     }
 
@@ -132,14 +145,25 @@ public class MainScreenController implements Initializable {
     // If deleteProduct() returns false (no product deleted), alert user that no product was deleted.
     public void onProductDelete(ActionEvent actionEvent) {
         Product selectedProduct = MainProductsTable.getSelectionModel().getSelectedItem();
+        Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete the selected product?");
+        confirmation.setTitle("Confirm Deletion");
+        confirmation.setHeaderText("Delete \"" + selectedProduct.getName() + "\"?");
+        Optional<ButtonType> result = confirmation.showAndWait();
 
-        if (Inventory.deleteProduct(selectedProduct)) {
-            MainProductsTable.setItems(Inventory.getAllProducts());
+        if(result.isEmpty() || result.get() != ButtonType.OK) {
+            Alert notDeleted = new Alert(Alert.AlertType.INFORMATION, "The selected product has not been deleted.");
+            notDeleted.setTitle("Cancelled");
+            notDeleted.setHeaderText("Product \"" + selectedProduct.getName() + "\" not deleted.");
+            notDeleted.showAndWait();
         } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Product not deleted");
-            alert.setTitle("Error: Product not deleted!");
-            alert.setHeaderText("");
-            alert.show();
+            if (Inventory.deleteProduct(selectedProduct)) {
+                MainProductsTable.setItems(Inventory.getAllProducts());
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Product not deleted");
+                alert.setTitle("Error: Product not deleted!");
+                alert.setHeaderText("");
+                alert.show();
+            }
         }
     }
 
