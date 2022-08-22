@@ -1,7 +1,5 @@
 package forest.inventorysystem.model;
 
-import forest.inventorysystem.InventorySystem;
-
 public class InHouse extends Part {
 
     // Declare private int machineId
@@ -14,14 +12,12 @@ public class InHouse extends Part {
     }
 
     // machineId setter allows machineID to be set without accessing the private int directly
-    public void setMachineId(int machineID) {
-        this.machineId = machineID;
+    public void setMachineId(int machineId) {
+        this.machineId = machineId;
     }
 
     // machineId getter allows machineID to be accessed without accessing the private int directly
     public int getMachineId() {
         return machineId;
     }
-
-
 }

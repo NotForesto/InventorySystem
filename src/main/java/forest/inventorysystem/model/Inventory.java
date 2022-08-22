@@ -2,16 +2,19 @@ package forest.inventorysystem.model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.Alert;
 
 public class Inventory {
     private static ObservableList<Part> allParts = FXCollections.observableArrayList();
     private static ObservableList<Product> allProducts = FXCollections.observableArrayList();
 
 
-    public static void addPart(Part part) { allParts.add(part); }
+    public static void addPart(Part part) {
+        allParts.add(part);
+    }
 
-    public static void addProduct(Product product) { allProducts.add(product); }
+    public static void addProduct(Product product) {
+        allProducts.add(product);
+    }
 
     // Method to search by PartID. Requires exact ID match to find part
     public static Part lookupPart(int partID) {
@@ -47,6 +50,7 @@ public class Inventory {
         }
         return namedParts;
     }
+
     // Method to search by ProductName. Looks at products that contain the text, doesn't require full string.
     // toLowerCase() is set on both namedProduct and partialName as to not be case-sensitive in search
     public static ObservableList<Product> lookupProduct(String productName) {
@@ -69,7 +73,7 @@ public class Inventory {
     }
 
     public static boolean deletePart(Part selectedPart) {
-        if(allParts.contains(selectedPart)) {
+        if (allParts.contains(selectedPart)) {
             allParts.remove(selectedPart);
             return true;
         } else {
@@ -78,7 +82,7 @@ public class Inventory {
     }
 
     public static boolean deleteProduct(Product selectedProduct) {
-        if(allProducts.contains(selectedProduct)) {
+        if (allProducts.contains(selectedProduct)) {
             allProducts.remove(selectedProduct);
             return true;
         } else {
@@ -86,13 +90,10 @@ public class Inventory {
         }
     }
 
-    public static int getPartIndex (Part part){
-        return allParts.indexOf(part);
-    }
-
     public static ObservableList<Part> getAllParts() {
         return allParts;
     }
+
     public static ObservableList<Product> getAllProducts() {
         return allProducts;
     }

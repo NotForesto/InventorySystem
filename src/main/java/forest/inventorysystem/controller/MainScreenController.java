@@ -1,10 +1,10 @@
 package forest.inventorysystem.controller;
 
 import forest.inventorysystem.InventorySystem;
-import forest.inventorysystem.model.*;
-import javafx.collections.FXCollections;
+import forest.inventorysystem.model.Inventory;
+import forest.inventorysystem.model.Part;
+import forest.inventorysystem.model.Product;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,13 +16,12 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.net.NetworkInterface;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import static forest.inventorysystem.model.Inventory.*;
+import static forest.inventorysystem.model.Inventory.lookupPart;
+import static forest.inventorysystem.model.Inventory.lookupProduct;
 
 public class MainScreenController implements Initializable {
     @FXML
@@ -93,7 +92,7 @@ public class MainScreenController implements Initializable {
     // Loads the PartsModify form when the "Modify" button is pressed in the parts section of the MainScreen form.
     public void toPartsModify(ActionEvent actionEvent) throws IOException {
         Part selectedPart = MainPartsTable.getSelectionModel().getSelectedItem();
-        if(selectedPart == null) {
+        if (selectedPart == null) {
             Alert noPart = new Alert(Alert.AlertType.ERROR, "Please select a part that you would like to modify.");
             noPart.setTitle("Error: No part selected");
             noPart.setHeaderText("No part selected.");
@@ -113,7 +112,7 @@ public class MainScreenController implements Initializable {
     // Loads the ProductModify form when the "Modify" button is pressed in the products section of the MainScreen form.
     public void toProductModify(ActionEvent actionEvent) throws IOException {
         Product selectedProduct = MainProductsTable.getSelectionModel().getSelectedItem();
-        if(selectedProduct == null) {
+        if (selectedProduct == null) {
             Alert noProduct = new Alert(Alert.AlertType.ERROR, "Please select a product that you would like to modify.");
             noProduct.setTitle("Error: No product selected");
             noProduct.setHeaderText("No product selected.");
@@ -128,7 +127,6 @@ public class MainScreenController implements Initializable {
             stage.setScene(scene);
             stage.show();
         }
-
     }
 
     // Deletes selected/highlighted part in MainScreen PartsTable
@@ -136,7 +134,7 @@ public class MainScreenController implements Initializable {
     public void onPartsDelete(ActionEvent actionEvent) {
 
         Part selectedPart = MainPartsTable.getSelectionModel().getSelectedItem();
-        if(selectedPart == null) {
+        if (selectedPart == null) {
             Alert noPart = new Alert(Alert.AlertType.ERROR, "Please select a part that you would like to delete.");
             noPart.setTitle("Error: No part selected");
             noPart.setHeaderText("No part selected.");
@@ -147,7 +145,7 @@ public class MainScreenController implements Initializable {
             confirmation.setHeaderText("Delete \"" + selectedPart.getName() + "\"?");
             Optional<ButtonType> result = confirmation.showAndWait();
 
-            if(result.isEmpty() || result.get() != ButtonType.OK) {
+            if (result.isEmpty() || result.get() != ButtonType.OK) {
                 Alert notDeleted = new Alert(Alert.AlertType.INFORMATION, "The selected part has not been deleted.");
                 notDeleted.setTitle("Cancelled");
                 notDeleted.setHeaderText("Part \"" + selectedPart.getName() + "\" not deleted.");
@@ -169,30 +167,43 @@ public class MainScreenController implements Initializable {
     // If deleteProduct() returns false (no product deleted), alert user that no product was deleted.
     public void onProductDelete(ActionEvent actionEvent) {
         Product selectedProduct = MainProductsTable.getSelectionModel().getSelectedItem();
-        if(selectedProduct == null) {
+        if (selectedProduct == null) {
             Alert noProduct = new Alert(Alert.AlertType.ERROR, "Please select a product that you would like to delete.");
             noProduct.setTitle("Error: No product selected");
             noProduct.setHeaderText("No product selected.");
             noProduct.showAndWait();
         } else {
-            Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete the selected product?");
-            confirmation.setTitle("Confirm Deletion");
-            confirmation.setHeaderText("Delete \"" + selectedProduct.getName() + "\"?");
-            Optional<ButtonType> result = confirmation.showAndWait();
-
-            if (result.isEmpty() || result.get() != ButtonType.OK) {
-                Alert notDeleted = new Alert(Alert.AlertType.INFORMATION, "The selected product has not been deleted.");
-                notDeleted.setTitle("Cancelled");
-                notDeleted.setHeaderText("Product \"" + selectedProduct.getName() + "\" not deleted.");
-                notDeleted.showAndWait();
+            if (selectedProduct.getAllAssociatedParts().size() > 0) {
+                Alert hasAssocPartsError = new Alert(Alert.AlertType.ERROR);
+                hasAssocPartsError.setTitle("Error: Product has associated parts");
+                hasAssocPartsError.setContentText("""
+                        Please first remove the associated parts. This can be completed by:
+                                                
+                        1.) Selecting \"Modify\" button in the Products Table.
+                        2.) Selecting the associated parts in the bottom table.
+                        3.) Selecting the \"Remove Associated Parts\" button.""");
+                hasAssocPartsError.setHeaderText("Product: " + selectedProduct.getName() + " has associated parts and cannot be deleted.");
+                hasAssocPartsError.showAndWait();
             } else {
-                if (Inventory.deleteProduct(selectedProduct)) {
-                    MainProductsTable.setItems(Inventory.getAllProducts());
+                Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete the selected product?");
+                confirmation.setTitle("Confirm Deletion");
+                confirmation.setHeaderText("Delete \"" + selectedProduct.getName() + "\"?");
+                Optional<ButtonType> result = confirmation.showAndWait();
+
+                if (result.isEmpty() || result.get() != ButtonType.OK) {
+                    Alert notDeleted = new Alert(Alert.AlertType.INFORMATION, "The selected product has not been deleted.");
+                    notDeleted.setTitle("Cancelled");
+                    notDeleted.setHeaderText("Product \"" + selectedProduct.getName() + "\" not deleted.");
+                    notDeleted.showAndWait();
                 } else {
-                    Alert alert = new Alert(Alert.AlertType.ERROR, "Product not deleted");
-                    alert.setTitle("Error: Product not deleted!");
-                    alert.setHeaderText("");
-                    alert.show();
+                    if (Inventory.deleteProduct(selectedProduct)) {
+                        MainProductsTable.setItems(Inventory.getAllProducts());
+                    } else {
+                        Alert alert = new Alert(Alert.AlertType.ERROR, "Product not deleted");
+                        alert.setTitle("Error: Product not deleted!");
+                        alert.setHeaderText("");
+                        alert.show();
+                    }
                 }
             }
         }
@@ -226,7 +237,6 @@ public class MainScreenController implements Initializable {
         PartSearchField.setText("");
     }
 
-
     // Product Table on main screen search. Calls searchByProductName and searchByProductID methods
     public void onProductsSearchField(ActionEvent actionEvent) {
         String q = ProductSearchField.getText();
@@ -250,8 +260,4 @@ public class MainScreenController implements Initializable {
         MainProductsTable.setItems(products);
         ProductSearchField.setText("");
     }
-
-
-
-
 }

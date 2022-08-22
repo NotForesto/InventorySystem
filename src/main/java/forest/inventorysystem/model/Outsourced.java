@@ -1,7 +1,5 @@
 package forest.inventorysystem.model;
 
-import forest.inventorysystem.InventorySystem;
-
 public class Outsourced extends Part {
 
     // Declare private int machineId
@@ -22,6 +20,5 @@ public class Outsourced extends Part {
     public String getCompanyName() {
         return companyName;
     }
-
 
 }

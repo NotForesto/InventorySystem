@@ -5,7 +5,6 @@ package forest.inventorysystem.model;
  */
 
 /**
- *
  * @author Forest Burchinal-Haj
  */
 public abstract class Part {
@@ -15,6 +14,7 @@ public abstract class Part {
     private int stock;
     private int min;
     private int max;
+
     public Part(int id, String name, double price, int stock, int min, int max) {
         this.id = id;
         this.name = name;

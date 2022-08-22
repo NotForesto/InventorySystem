@@ -22,29 +22,53 @@ public class Product {
         this.max = max;
     }
 
-    public void setId(int id) { this.id = id; }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-    public void setName(String name) { this.name = name; }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    public void setPrice(double price) { this.price = price; }
+    public void setPrice(double price) {
+        this.price = price;
+    }
 
-    public void setStock(int stock) { this.stock = stock; }
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
 
-    public void setMin(int min) { this.min = min; }
+    public void setMin(int min) {
+        this.min = min;
+    }
 
-    public void setMax(int max) { this.max = max; }
+    public void setMax(int max) {
+        this.max = max;
+    }
 
-    public int getId() { return id; }
+    public int getId() {
+        return id;
+    }
 
-    public String getName() { return name; }
+    public String getName() {
+        return name;
+    }
 
-    public double getPrice() { return price; }
+    public double getPrice() {
+        return price;
+    }
 
-    public int getStock() { return stock; }
+    public int getStock() {
+        return stock;
+    }
 
-    public int getMin() { return min; }
+    public int getMin() {
+        return min;
+    }
 
-    public int getMax() { return max; }
+    public int getMax() {
+        return max;
+    }
 
     public void addAssociatedPart(Part part) {
         associatedParts.add(part);

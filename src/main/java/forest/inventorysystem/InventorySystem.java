@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class InventorySystem extends Application {
-    // Variable that will be used to increment IDs for all parts and products
+
     public static int partIdCount=0;
     public static int partIdIncrement() {
         return ++partIdCount;

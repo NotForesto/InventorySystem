@@ -16,7 +16,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class ModifyPartController {
-
     @FXML
     private TextField minText;
     @FXML
@@ -25,10 +24,6 @@ public class ModifyPartController {
     private RadioButton outsourcedButton;
     @FXML
     private Label machineIdLabel;
-    @FXML
-    private Button saveButton;
-    @FXML
-    private Button cancelButton;
     @FXML
     private TextField machineIdText;
     @FXML
@@ -41,7 +36,6 @@ public class ModifyPartController {
     private TextField nameText;
     @FXML
     private TextField idText;
-
     private Part selectedPart;
 
     /**
@@ -69,7 +63,6 @@ public class ModifyPartController {
         minText.setText(Integer.toString(selectedPart.getMin()));
     }
 
-
     // When In-House radio button is selected, Machine ID field is available.
     public void onInHouse(ActionEvent actionEvent) {
         machineIdLabel.setText("Machine ID");
@@ -79,7 +72,6 @@ public class ModifyPartController {
     public void onOutsourced(ActionEvent actionEvent) {
         machineIdLabel.setText("Company Name");
     }
-
 
     // Not working, need to figure out
     public void onSaveButton(ActionEvent actionEvent) throws IOException {
@@ -92,10 +84,15 @@ public class ModifyPartController {
             int max = Integer.parseInt(maxText.getText());
             int partIndex = Inventory.getAllParts().indexOf(selectedPart);
 
-            if (stock > max || stock < min || stock < 0) {
-                Alert stockError = new Alert(Alert.AlertType.ERROR, "The error is due to one of the following:\nInventory is equal or less than zero.\nInventory is less than Min or greater than Max.\nMin is greater than max.");
-                stockError.setTitle("Error: Stock, Min, Max");
-                stockError.setHeaderText("Please verify the values in: Inv, Max, and Min.");
+            if (min > max) {
+                Alert stockError = new Alert(Alert.AlertType.ERROR, "Min must be less than Max. Please change Min or Max value.");
+                stockError.setTitle("Error: Min/Max");
+                stockError.setHeaderText("Min is larger than max value.");
+                stockError.showAndWait();
+            } else if (stock < min || stock > max) {
+                Alert stockError = new Alert(Alert.AlertType.ERROR, "Inv must be greater than Min, but less than Max. Please change stock to be greater than Min but less than Max.");
+                stockError.setTitle("Error: Inv");
+                stockError.setHeaderText("Inv is not between Min and Max.");
                 stockError.showAndWait();
             } else {
                 if (inHouseButton.isSelected()) {
@@ -122,8 +119,6 @@ public class ModifyPartController {
             exception.showAndWait();
         }
     }
-
-
 
     // When the Cancel button is clicked, user is returned to MainScreen
     public void onCancelButton(ActionEvent actionEvent) throws IOException {

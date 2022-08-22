@@ -13,11 +13,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.util.Optional;
-
-import static forest.inventorysystem.InventorySystem.productIdIncrement;
 
 public class ModifyProductController {
     @FXML
@@ -67,10 +64,10 @@ public class ModifyProductController {
 
     /**
      * This method accepts a product to initialize on scene load
+     *
      * @param product
      */
 
-    // Still needs if statement to switch between InHouse and Outsourced
     public void initialize(Product product) {
 
         selectedProduct = product;
@@ -87,7 +84,7 @@ public class ModifyProductController {
         PartInventoryLevelCol.setCellValueFactory(new PropertyValueFactory<>("stock"));
         PartPricePerUnitCol.setCellValueFactory(new PropertyValueFactory<>("price"));
 
-        assocParts  = selectedProduct.getAllAssociatedParts();
+        assocParts = selectedProduct.getAllAssociatedParts();
 
         AssociatedPartsTable.setItems(assocParts);
         AssocPartIDCol.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -96,7 +93,6 @@ public class ModifyProductController {
         AssocPartPricePerUnitCol.setCellValueFactory(new PropertyValueFactory<>("price"));
 
     }
-
 
     public void onAddButton(ActionEvent actionEvent) {
         Part selectedPart = (Part) PartsTable.getSelectionModel().getSelectedItem();
@@ -114,30 +110,34 @@ public class ModifyProductController {
             int max = Integer.parseInt(maxText.getText());
             int productIndex = Inventory.getAllProducts().indexOf(selectedProduct);
 
-            if( stock > max || stock < min || stock < 0 ) {
-                Alert stockError = new Alert(Alert.AlertType.ERROR, "The error is due to one of the following:\nInventory is equal or less than zero.\nInventory is less than Min or greater than Max.\nMin is greater than max.");
-                stockError.setTitle("Error: Stock, Min, Max");
-                stockError.setHeaderText("Please verify the values in: Inv, Max, and Min.");
+            if (min > max) {
+                Alert stockError = new Alert(Alert.AlertType.ERROR, "Min must be less than Max. Please change Min or Max value.");
+                stockError.setTitle("Error: Min/Max");
+                stockError.setHeaderText("Min is larger than max value.");
+                stockError.showAndWait();
+            } else if (stock < min || stock > max) {
+                Alert stockError = new Alert(Alert.AlertType.ERROR, "Inv must be greater than Min, but less than Max. Please change stock to be greater than Min but less than Max.");
+                stockError.setTitle("Error: Inv");
+                stockError.setHeaderText("Inv is not between Min and Max.");
                 stockError.showAndWait();
             } else {
 
                 Product newProduct = new Product(id, name, price, stock, min, max);
                 Inventory.updateProduct(productIndex, newProduct);
 
-                for(Part newAssocPart: assocParts) {
+                for (Part newAssocPart : assocParts) {
                     newProduct.addAssociatedPart(newAssocPart);
                 }
 
                 FXMLLoader fxmlLoader = new FXMLLoader(InventorySystem.class.getResource("MainScreen.fxml"));
-                Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+                Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
                 Scene scene = new Scene(fxmlLoader.load(), 948, 337);
                 stage.setTitle("C482 - Performance Assessment");
                 stage.setScene(scene);
                 stage.show();
             }
-        }
-        catch (Exception e) {
-            Alert exception = new Alert(Alert.AlertType.ERROR,  e.toString());
+        } catch (Exception e) {
+            Alert exception = new Alert(Alert.AlertType.ERROR, e.toString());
             exception.setTitle("Error");
             exception.setHeaderText("Please verify values in form.\nPlease refer to the exception message below for more information.");
             exception.showAndWait();
@@ -147,7 +147,7 @@ public class ModifyProductController {
     // When the Cancel button is clicked, user is returned to MainScreen
     public void onCancelButton(ActionEvent actionEvent) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(InventorySystem.class.getResource("MainScreen.fxml"));
-        Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         Scene scene = new Scene(fxmlLoader.load(), 948, 337);
         stage.setTitle("C482 - Performance Assessment");
         stage.setScene(scene);
@@ -156,7 +156,7 @@ public class ModifyProductController {
 
     public void onRemovePartsButton(ActionEvent actionEvent) {
         Part selectedPart = (Part) AssociatedPartsTable.getSelectionModel().getSelectedItem();
-        if(selectedPart == null) {
+        if (selectedPart == null) {
             Alert noPart = new Alert(Alert.AlertType.ERROR, "Please select a part that you would like to delete.");
             noPart.setTitle("Error: No part selected");
             noPart.setHeaderText("No part selected.");
@@ -173,7 +173,7 @@ public class ModifyProductController {
                 notDeleted.setHeaderText("Part \"" + selectedPart.getName() + "\" not deleted.");
                 notDeleted.showAndWait();
             } else {
-                if (assocParts.remove(selectedPart)) {
+                if (selectedProduct.deleteAssociatedPart(selectedPart)) {
                     AssociatedPartsTable.setItems(assocParts);
                 } else {
                     Alert alert = new Alert(Alert.AlertType.ERROR, "Part not deleted");
