@@ -23,6 +23,13 @@ import java.util.ResourceBundle;
 import static forest.inventorysystem.model.Inventory.lookupPart;
 import static forest.inventorysystem.model.Inventory.lookupProduct;
 
+/**
+ * @author Forest Burchinal-Haj
+ */
+
+/**
+ * The MainScreenController class provides control logic for the main screen of the Inventory System application.
+ */
 public class MainScreenController implements Initializable {
     @FXML
     private TextField PartSearchField;
@@ -51,6 +58,10 @@ public class MainScreenController implements Initializable {
     @FXML
     private TableView<Product> MainProductsTable;
 
+    /**
+     * The initialize() method is called after constructor and @FXML.
+     * Populates MainPartsTable and MainProductsTable.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -69,7 +80,12 @@ public class MainScreenController implements Initializable {
         ProductPricePerUnitCol.setCellValueFactory(new PropertyValueFactory<>("price"));
     }
 
-    // Loads the AddPart form when the "Add" button is pressed in the parts section of the MainScreen form.
+    /**
+     * The toAddPart() method loads the AddPart screen.
+     *
+     * @param actionEvent refers to the AddPart button being pressed.
+     * @throws IOException so compiler knows that Input/Output might throw an exception, in this case the "AddPart.fxml" file.
+     */
     public void toAddPart(ActionEvent actionEvent) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(InventorySystem.class.getResource("AddPart.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
@@ -79,7 +95,12 @@ public class MainScreenController implements Initializable {
         stage.show();
     }
 
-    // Loads the AddProduct form when the "Add" button is pressed in the products section of the MainScreen form.
+    /**
+     * The toAddProduct() method loads the AddPart screen.
+     *
+     * @param actionEvent refers to the AddProduct button being pressed.
+     * @throws IOException so compiler knows that Input/Output might throw an exception, in this case the "AddProduct.fxml" file.
+     */
     public void toAddProduct(ActionEvent actionEvent) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(InventorySystem.class.getResource("AddProduct.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
@@ -89,7 +110,13 @@ public class MainScreenController implements Initializable {
         stage.show();
     }
 
-    // Loads the PartsModify form when the "Modify" button is pressed in the parts section of the MainScreen form.
+    /**
+     * The toPartsModify() method loads the ModifyParts screen.
+     * Stores highlighted/selected part into a Part object so that parts data can be passed to the ModifyPart screen.
+     *
+     * @param actionEvent refers to the ModifyPart button being pressed.
+     * @throws IOException so compiler knows that Input/Output might throw an exception, in this case the "ModifyPart.fxml" file.
+     */
     public void toPartsModify(ActionEvent actionEvent) throws IOException {
         Part selectedPart = MainPartsTable.getSelectionModel().getSelectedItem();
         if (selectedPart == null) {
@@ -109,7 +136,13 @@ public class MainScreenController implements Initializable {
         }
     }
 
-    // Loads the ProductModify form when the "Modify" button is pressed in the products section of the MainScreen form.
+    /**
+     * The toProductModify() method loads the ModifyProducts screen.
+     * Stores highlighted/selected part into a Part object so that parts data can be passed to the ModifyProducts screen.
+     *
+     * @param actionEvent refers to the ModifyProduct button being pressed.
+     * @throws IOException so compiler knows that Input/Output might throw an exception, in this case the "ModifyProduct.fxml" file.
+     */
     public void toProductModify(ActionEvent actionEvent) throws IOException {
         Product selectedProduct = MainProductsTable.getSelectionModel().getSelectedItem();
         if (selectedProduct == null) {
@@ -129,8 +162,14 @@ public class MainScreenController implements Initializable {
         }
     }
 
-    // Deletes selected/highlighted part in MainScreen PartsTable
-    // If deletePart() returns false (no part deleted), alert user that no part was deleted.
+
+    /**
+     * The onPartDelete() method deletes highlighted/selected part.
+     * Throws confirmation window to verify user wants to delete part.
+     * Throws alert if part is unable to be deleted.
+     *
+     * @param actionEvent refers to the PartDelete button being pressed.
+     */
     public void onPartsDelete(ActionEvent actionEvent) {
 
         Part selectedPart = MainPartsTable.getSelectionModel().getSelectedItem();
@@ -163,8 +202,13 @@ public class MainScreenController implements Initializable {
         }
     }
 
-    // Deletes selected/highlighted product in MainScreen ProductTable
-    // If deleteProduct() returns false (no product deleted), alert user that no product was deleted.
+    /**
+     * The onProductDelete() method deletes highlighted/selected product.
+     * Throws confirmation window to verify user wants to delete product.
+     * Throws alert if product is unable to be deleted.
+     *
+     * @param actionEvent refers to the ProductDelete button being pressed.
+     */
     public void onProductDelete(ActionEvent actionEvent) {
         Product selectedProduct = MainProductsTable.getSelectionModel().getSelectedItem();
         if (selectedProduct == null) {
@@ -209,13 +253,21 @@ public class MainScreenController implements Initializable {
         }
     }
 
-    // Closes application when the "Exit" button is pressed on the MainScreen form.
+    /**
+     * The onExitButton() method closes the application when the ExitButton is pressed.
+     *
+     * @param actionEvent refers to the ExitButton being pressed.
+     */
     public void onExitButton(ActionEvent actionEvent) {
         Stage stage = (Stage) exitButton.getScene().getWindow();
         stage.close();
     }
 
-    // Parts Table on main screen search. Calls searchByPartName and searchByPartID methods
+    /**
+     * The onPartSearchField() method searches for parts using both partialName and exact ID matching
+     *
+     * @param actionEvent refers to the search bar being activated (via enter key or on screen button).
+     */
     public void onPartsSearchField(ActionEvent actionEvent) {
         String q = PartSearchField.getText();
         ObservableList<Part> parts = lookupPart(q);
@@ -237,7 +289,11 @@ public class MainScreenController implements Initializable {
         PartSearchField.setText("");
     }
 
-    // Product Table on main screen search. Calls searchByProductName and searchByProductID methods
+    /**
+     * The onProductsSearchField() method searches for products using both partialName and exact ID matching
+     *
+     * @param actionEvent refers to the search bar being activated (via enter key or on screen button).
+     */
     public void onProductsSearchField(ActionEvent actionEvent) {
         String q = ProductSearchField.getText();
         ObservableList<Product> products = lookupProduct(q);

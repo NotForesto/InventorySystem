@@ -16,6 +16,13 @@ import java.io.IOException;
 
 import static forest.inventorysystem.InventorySystem.partIdIncrement;
 
+/**
+ * @author Forest Burchinal-Haj
+ */
+
+/**
+ * The AddPartController class provides control logic for the AddPart screen of the Inventory System application.
+ */
 public class AddPartController {
 
     @FXML
@@ -44,17 +51,31 @@ public class AddPartController {
     private Button cancelButton;
 
 
-    // When In-House radio button is selected, Machine ID field is available.
+    /**
+     * The onInHouse() method changes the machineIdLabel to "Machine ID" when the InHouse button is selected.
+     *
+     * @param actionEvent refers to the selection of the InHouse radio button
+     */
     public void onInHouse(ActionEvent actionEvent) {
         machineIdLabel.setText("Machine ID");
     }
 
+    /**
+     * The onOutsourced() method changes the machineIdLabel to "Company Name" when the Outsourced button is selected.
+     *
+     * @param actionEvent refers to the selection of the Outsourced radio button
+     */
     // When Outsourced radio button is selected, Company Name field is available
     public void onOutsourced(ActionEvent actionEvent) {
         machineIdLabel.setText("Company Name");
     }
 
-
+    /**
+     * The onSaveButton() method attempts to create a new part with supplied inputs.
+     *
+     * @param actionEvent refers to the SaveButton being pressed.
+     * @throws IOException so compiler knows that Input/Output might throw an exception, in this case the values the user entered into the text boxes
+     */
     public void onSaveButton(ActionEvent actionEvent) throws IOException {
         try {
             int id = partIdIncrement();
@@ -100,7 +121,12 @@ public class AddPartController {
         }
     }
 
-    // When the Cancel button is clicked, user is returned to MainScreen
+    /**
+     * The onCancelButton() method returns the user to the MainScreen
+     *
+     * @param actionEvent refers to the pressing of the CancelButton
+     * @throws IOException so compiler knows that Input/Output might throw an exception, in this case the "MainScreen.fxml" file.
+     */
     public void onCancelButton(ActionEvent actionEvent) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(InventorySystem.class.getResource("MainScreen.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
@@ -109,5 +135,4 @@ public class AddPartController {
         stage.setScene(scene);
         stage.show();
     }
-
 }

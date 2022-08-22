@@ -13,9 +13,17 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+
 import java.io.IOException;
 import java.util.Optional;
 
+/**
+ * @author Forest Burchinal-Haj
+ */
+
+/**
+ * The ModifyProductController class provides control logic for the ModifyProduct screen of the Inventory System application.
+ */
 public class ModifyProductController {
     @FXML
     private TableColumn AssocPartPricePerUnitCol;
@@ -63,11 +71,12 @@ public class ModifyProductController {
     private ObservableList<Part> assocParts;
 
     /**
-     * This method accepts a product to initialize on scene load
+     * The initialize() method is called after constructor and @FXML.
+     * Populates PartsTable and AssociatedPartsTable.
+     * Initializes assocParts ObservableList as well.
      *
-     * @param product
+     * @param product object is passed from the selected Part in the main screen
      */
-
     public void initialize(Product product) {
 
         selectedProduct = product;
@@ -94,12 +103,23 @@ public class ModifyProductController {
 
     }
 
+    /**
+     * The onAddButton() method adds part highlighted in PartsTable to assocParts Observable list.
+     * AssociatedPartsTable is then reloaded so new assocPart is shown in table.
+     *
+     * @param actionEvent refers to the AddButton being pressed.
+     */
     public void onAddButton(ActionEvent actionEvent) {
         Part selectedPart = (Part) PartsTable.getSelectionModel().getSelectedItem();
         assocParts.add(selectedPart);
         AssociatedPartsTable.setItems(assocParts);
     }
 
+    /**
+     * The onSaveButton() method attempts to update selected product with supplied inputs.
+     *
+     * @param actionEvent refers to the SaveButton being pressed.
+     */
     public void onSaveButton(ActionEvent actionEvent) {
         try {
             int id = Integer.parseInt(idText.getText());
@@ -144,7 +164,12 @@ public class ModifyProductController {
         }
     }
 
-    // When the Cancel button is clicked, user is returned to MainScreen
+    /**
+     * The onCancelButton() method returns the user to the MainScreen
+     *
+     * @param actionEvent refers to the pressing of the CancelButton
+     * @throws IOException so compiler knows that Input/Output might throw an exception, in this case the "MainScreen.fxml" file.
+     */
     public void onCancelButton(ActionEvent actionEvent) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(InventorySystem.class.getResource("MainScreen.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
@@ -154,6 +179,11 @@ public class ModifyProductController {
         stage.show();
     }
 
+    /**
+     * The onRemovePartsButton() method removes highlighted associated part.
+     *
+     * @param actionEvent refers to the pressing of the RemoveAssociatedPart button.
+     */
     public void onRemovePartsButton(ActionEvent actionEvent) {
         Part selectedPart = (Part) AssociatedPartsTable.getSelectionModel().getSelectedItem();
         if (selectedPart == null) {

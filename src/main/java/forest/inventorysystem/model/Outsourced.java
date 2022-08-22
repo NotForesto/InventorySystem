@@ -1,22 +1,39 @@
 package forest.inventorysystem.model;
 
+/**
+ * The Outsourced class is a subclass of the Abstract Part class
+ */
 public class Outsourced extends Part {
 
     // Declare private int machineId
     private String companyName;
 
-    // InHouse constructor
+    /**
+     * InHouse constructor, uses Part class super-constructor
+     *
+     * @param id
+     * @param name
+     * @param price
+     * @param stock
+     * @param min
+     * @param max
+     * @param companyName
+     */
     public Outsourced(int id, String name, double price, int stock, int min, int max, String companyName) {
         super(id, name, price, stock, min, max);
         this.companyName = companyName;
     }
 
-    // machineId setter allows machineID to be set without accessing the private int directly
+    /**
+     * @param companyName the companyName to set
+     */
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
     }
 
-    // machineId setter allows machineID to be accessed without accessing the private int directly
+    /**
+     * @return the companyName
+     */
     public String getCompanyName() {
         return companyName;
     }

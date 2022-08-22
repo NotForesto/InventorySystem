@@ -1,11 +1,11 @@
 package forest.inventorysystem.model;
 
 /**
- * Supplied class Part.java
+ * @author Forest Burchinal-Haj
  */
 
 /**
- * @author Forest Burchinal-Haj
+ * Supplied class Part.java
  */
 public abstract class Part {
     private int id;

@@ -1,7 +1,9 @@
 package forest.inventorysystem.controller;
 
 import forest.inventorysystem.InventorySystem;
-import forest.inventorysystem.model.*;
+import forest.inventorysystem.model.Inventory;
+import forest.inventorysystem.model.Part;
+import forest.inventorysystem.model.Product;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,13 +15,18 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.Optional;
-import java.util.ResourceBundle;
 
-import static forest.inventorysystem.InventorySystem.*;
+import static forest.inventorysystem.InventorySystem.productIdIncrement;
 import static forest.inventorysystem.model.Inventory.lookupPart;
 
+/**
+ * @author Forest Burchinal-Haj
+ */
+
+/**
+ * The AddProductController class provides control logic for the AddProduct screen of the Inventory System application.
+ */
 public class AddProductController {
     @FXML
     private TableColumn AssocPartPricePerUnitCol;
@@ -65,6 +72,11 @@ public class AddProductController {
     private TextField idText;
     private ObservableList<Part> assocParts;
 
+    /**
+     * The initialize() method is called after constructor and @FXML.
+     * Populates PartsTable and AssociatedPartsTable.
+     * Initializes assocParts ObservableList as well.
+     */
     public void initialize() {
 
         PartsTable.setItems(Inventory.getAllParts());
@@ -81,12 +93,23 @@ public class AddProductController {
         AssocPartPricePerUnitCol.setCellValueFactory(new PropertyValueFactory<>("price"));
     }
 
+    /**
+     * The onAddButton() method adds part highlighted in PartsTable to assocParts Observable list.
+     * AssociatedPartsTable is then reloaded so new assocPart is shown in table.
+     *
+     * @param actionEvent refers to the AddButton being pressed.
+     */
     public void onAddButton(ActionEvent actionEvent) {
         Part selectedPart = (Part) PartsTable.getSelectionModel().getSelectedItem();
         assocParts.add(selectedPart);
         AssociatedPartsTable.setItems(assocParts);
     }
 
+    /**
+     * The onSaveButton() method attempts to create new product with supplied inputs.
+     *
+     * @param actionEvent refers to the SaveButton being pressed.
+     */
     public void onSaveButton(ActionEvent actionEvent) {
         try {
             int id = productIdIncrement();
@@ -130,7 +153,12 @@ public class AddProductController {
         }
     }
 
-    // When the Cancel button is clicked, user is returned to MainScreen
+    /**
+     * The onCancelButton() method returns the user to the MainScreen
+     *
+     * @param actionEvent refers to the pressing of the CancelButton
+     * @throws IOException so compiler knows that Input/Output might throw an exception, in this case the "MainScreen.fxml" file.
+     */
     public void onCancelButton(ActionEvent actionEvent) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(InventorySystem.class.getResource("MainScreen.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
@@ -140,6 +168,11 @@ public class AddProductController {
         stage.show();
     }
 
+    /**
+     * The onRemovePartsButton() method removes highlighted associated part.
+     *
+     * @param actionEvent refers to the pressing of the RemoveAssociatedPart button.
+     */
     public void onRemovePartsButton(ActionEvent actionEvent) {
         Part selectedPart = (Part) AssociatedPartsTable.getSelectionModel().getSelectedItem();
         if (selectedPart == null) {
@@ -171,6 +204,11 @@ public class AddProductController {
         }
     }
 
+    /**
+     * The onPartSearchField() method searches for parts using both partialName and exact ID matching
+     *
+     * @param actionEvent refers to the search bar being activated (via enter key or on screen button).
+     */
     public void onPartSearchField(ActionEvent actionEvent) {
         String q = PartSearchField.getText();
         ObservableList<Part> parts = lookupPart(q);

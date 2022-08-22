@@ -15,6 +15,13 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * @author Forest Burchinal-Haj
+ */
+
+/**
+ * The ModifyPartController class provides control logic for the ModifyPart screen of the Inventory System application.
+ */
 public class ModifyPartController {
     @FXML
     private TextField minText;
@@ -39,11 +46,10 @@ public class ModifyPartController {
     private Part selectedPart;
 
     /**
-     * This method accepts a person to initialize on scene load
+     * The initialize() method is called after constructor and @FXML.
      *
-     * @param part
+     * @param part object is passed from the selected Part in the main screen
      */
-
     public void initialize(Part part) {
         selectedPart = part;
 
@@ -63,17 +69,30 @@ public class ModifyPartController {
         minText.setText(Integer.toString(selectedPart.getMin()));
     }
 
-    // When In-House radio button is selected, Machine ID field is available.
+    /**
+     * The onInHouse() method changes the machineIdLabel to "Machine ID" when the InHouse button is selected.
+     *
+     * @param actionEvent refers to the selection of the InHouse radio button
+     */
     public void onInHouse(ActionEvent actionEvent) {
         machineIdLabel.setText("Machine ID");
     }
 
-    // When Outsourced radio button is selected, Company Name field is available
+    /**
+     * The onOutsourced() method changes the machineIdLabel to "Company Name" when the Outsourced button is selected.
+     *
+     * @param actionEvent refers to the selection of the Outsourced radio button
+     */
     public void onOutsourced(ActionEvent actionEvent) {
         machineIdLabel.setText("Company Name");
     }
 
-    // Not working, need to figure out
+    /**
+     * The onSaveButton() method attempts to modify part with supplied inputs.
+     *
+     * @param actionEvent refers to the SaveButton being pressed.
+     * @throws IOException so compiler knows that Input/Output might throw an exception, in this case the values the user entered into the text boxes
+     */
     public void onSaveButton(ActionEvent actionEvent) throws IOException {
         try {
             int id = Integer.parseInt(idText.getText());
@@ -120,7 +139,12 @@ public class ModifyPartController {
         }
     }
 
-    // When the Cancel button is clicked, user is returned to MainScreen
+    /**
+     * The onCancelButton() method returns the user to the MainScreen
+     *
+     * @param actionEvent refers to the pressing of the CancelButton
+     * @throws IOException so compiler knows that Input/Output might throw an exception, in this case the "MainScreen.fxml" file.
+     */
     public void onCancelButton(ActionEvent actionEvent) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(InventorySystem.class.getResource("MainScreen.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
