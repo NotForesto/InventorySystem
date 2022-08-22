@@ -46,6 +46,10 @@ public class ModifyPartController {
     private Part selectedPart;
 
     /**
+     * RUNTIME ERROR: I was having a lot of difficulty getting InHouse or Outsourced objects cast to their correct type.
+     * After a lot of testing I realized that you could cast them separately in their own if/else if statements.
+     * After separating the two I was able to cast them to their correct types (InHouse for InHouse Parts and Outsourced for Outsourced Parts).
+     *
      * The initialize() method is called after constructor and @FXML.
      *
      * @param part object is passed from the selected Part in the main screen

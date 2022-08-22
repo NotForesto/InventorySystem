@@ -48,6 +48,8 @@ public class InventorySystem extends Application {
     }
 
     /**
+     * FUTURE ENHANCEMENT: I'd add the ability to copy a selected part or product as a template, so you could save time/effort when making multiple new parts or products.
+     *
      * The main() method creates test data and launches the application.
      * @param args Contains the supplied command-line arguments as an array of String objects.
      */
