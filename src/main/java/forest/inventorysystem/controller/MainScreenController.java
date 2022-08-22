@@ -92,51 +92,75 @@ public class MainScreenController implements Initializable {
 
     // Loads the PartsModify form when the "Modify" button is pressed in the parts section of the MainScreen form.
     public void toPartsModify(ActionEvent actionEvent) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(InventorySystem.class.getResource("ModifyPart.fxml"));
-        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        Scene scene = new Scene(fxmlLoader.load(), 670, 580);
-        ModifyPartController controller = fxmlLoader.getController();
-        controller.initialize(MainPartsTable.getSelectionModel().getSelectedItem());
-        stage.setTitle("Modify Parts");
-        stage.setScene(scene);
-        stage.show();
-
+        Part selectedPart = MainPartsTable.getSelectionModel().getSelectedItem();
+        if(selectedPart == null) {
+            Alert noPart = new Alert(Alert.AlertType.ERROR, "Please select a part that you would like to modify.");
+            noPart.setTitle("Error: No part selected");
+            noPart.setHeaderText("No part selected.");
+            noPart.showAndWait();
+        } else {
+            FXMLLoader fxmlLoader = new FXMLLoader(InventorySystem.class.getResource("ModifyPart.fxml"));
+            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            Scene scene = new Scene(fxmlLoader.load(), 670, 580);
+            ModifyPartController controller = fxmlLoader.getController();
+            controller.initialize(selectedPart);
+            stage.setTitle("Modify Parts");
+            stage.setScene(scene);
+            stage.show();
+        }
     }
 
     // Loads the ProductModify form when the "Modify" button is pressed in the products section of the MainScreen form.
     public void toProductModify(ActionEvent actionEvent) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(InventorySystem.class.getResource("ModifyProduct.fxml"));
-        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        Scene scene = new Scene(fxmlLoader.load(), 1150, 630);
-        ModifyProductController controller = fxmlLoader.getController();
-        controller.initialize(MainProductsTable.getSelectionModel().getSelectedItem());
-        stage.setTitle("Modify Products");
-        stage.setScene(scene);
-        stage.show();
+        Product selectedProduct = MainProductsTable.getSelectionModel().getSelectedItem();
+        if(selectedProduct == null) {
+            Alert noProduct = new Alert(Alert.AlertType.ERROR, "Please select a product that you would like to modify.");
+            noProduct.setTitle("Error: No product selected");
+            noProduct.setHeaderText("No product selected.");
+            noProduct.showAndWait();
+        } else {
+            FXMLLoader fxmlLoader = new FXMLLoader(InventorySystem.class.getResource("ModifyProduct.fxml"));
+            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            Scene scene = new Scene(fxmlLoader.load(), 1150, 630);
+            ModifyProductController controller = fxmlLoader.getController();
+            controller.initialize(selectedProduct);
+            stage.setTitle("Modify Products");
+            stage.setScene(scene);
+            stage.show();
+        }
+
     }
 
     // Deletes selected/highlighted part in MainScreen PartsTable
     // If deletePart() returns false (no part deleted), alert user that no part was deleted.
     public void onPartsDelete(ActionEvent actionEvent) {
-        Part selectedPart = MainPartsTable.getSelectionModel().getSelectedItem();
-        Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete the selected part?");
-        confirmation.setTitle("Confirm Deletion");
-        confirmation.setHeaderText("Delete \"" + selectedPart.getName() + "\"?");
-        Optional<ButtonType> result = confirmation.showAndWait();
 
-        if(result.isEmpty() || result.get() != ButtonType.OK) {
-            Alert notDeleted = new Alert(Alert.AlertType.INFORMATION, "The selected part has not been deleted.");
-            notDeleted.setTitle("Cancelled");
-            notDeleted.setHeaderText("Part \"" + selectedPart.getName() + "\" not deleted.");
-            notDeleted.showAndWait();
+        Part selectedPart = MainPartsTable.getSelectionModel().getSelectedItem();
+        if(selectedPart == null) {
+            Alert noPart = new Alert(Alert.AlertType.ERROR, "Please select a part that you would like to delete.");
+            noPart.setTitle("Error: No part selected");
+            noPart.setHeaderText("No part selected.");
+            noPart.showAndWait();
         } else {
-            if (Inventory.deletePart(selectedPart)) {
-                MainPartsTable.setItems(Inventory.getAllParts());
+            Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete the selected part?");
+            confirmation.setTitle("Confirm Deletion");
+            confirmation.setHeaderText("Delete \"" + selectedPart.getName() + "\"?");
+            Optional<ButtonType> result = confirmation.showAndWait();
+
+            if(result.isEmpty() || result.get() != ButtonType.OK) {
+                Alert notDeleted = new Alert(Alert.AlertType.INFORMATION, "The selected part has not been deleted.");
+                notDeleted.setTitle("Cancelled");
+                notDeleted.setHeaderText("Part \"" + selectedPart.getName() + "\" not deleted.");
+                notDeleted.showAndWait();
             } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR, "Part not deleted");
-                alert.setTitle("Error: Part not deleted!");
-                alert.setHeaderText("");
-                alert.show();
+                if (Inventory.deletePart(selectedPart)) {
+                    MainPartsTable.setItems(Inventory.getAllParts());
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "Part not deleted");
+                    alert.setTitle("Error: Part not deleted!");
+                    alert.setHeaderText("");
+                    alert.show();
+                }
             }
         }
     }
@@ -145,24 +169,31 @@ public class MainScreenController implements Initializable {
     // If deleteProduct() returns false (no product deleted), alert user that no product was deleted.
     public void onProductDelete(ActionEvent actionEvent) {
         Product selectedProduct = MainProductsTable.getSelectionModel().getSelectedItem();
-        Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete the selected product?");
-        confirmation.setTitle("Confirm Deletion");
-        confirmation.setHeaderText("Delete \"" + selectedProduct.getName() + "\"?");
-        Optional<ButtonType> result = confirmation.showAndWait();
-
-        if(result.isEmpty() || result.get() != ButtonType.OK) {
-            Alert notDeleted = new Alert(Alert.AlertType.INFORMATION, "The selected product has not been deleted.");
-            notDeleted.setTitle("Cancelled");
-            notDeleted.setHeaderText("Product \"" + selectedProduct.getName() + "\" not deleted.");
-            notDeleted.showAndWait();
+        if(selectedProduct == null) {
+            Alert noProduct = new Alert(Alert.AlertType.ERROR, "Please select a product that you would like to delete.");
+            noProduct.setTitle("Error: No product selected");
+            noProduct.setHeaderText("No product selected.");
+            noProduct.showAndWait();
         } else {
-            if (Inventory.deleteProduct(selectedProduct)) {
-                MainProductsTable.setItems(Inventory.getAllProducts());
+            Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete the selected product?");
+            confirmation.setTitle("Confirm Deletion");
+            confirmation.setHeaderText("Delete \"" + selectedProduct.getName() + "\"?");
+            Optional<ButtonType> result = confirmation.showAndWait();
+
+            if (result.isEmpty() || result.get() != ButtonType.OK) {
+                Alert notDeleted = new Alert(Alert.AlertType.INFORMATION, "The selected product has not been deleted.");
+                notDeleted.setTitle("Cancelled");
+                notDeleted.setHeaderText("Product \"" + selectedProduct.getName() + "\" not deleted.");
+                notDeleted.showAndWait();
             } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR, "Product not deleted");
-                alert.setTitle("Error: Product not deleted!");
-                alert.setHeaderText("");
-                alert.show();
+                if (Inventory.deleteProduct(selectedProduct)) {
+                    MainProductsTable.setItems(Inventory.getAllProducts());
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "Product not deleted");
+                    alert.setTitle("Error: Product not deleted!");
+                    alert.setHeaderText("");
+                    alert.show();
+                }
             }
         }
     }

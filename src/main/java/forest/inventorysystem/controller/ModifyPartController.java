@@ -1,7 +1,10 @@
 package forest.inventorysystem.controller;
 
 import forest.inventorysystem.InventorySystem;
-import forest.inventorysystem.model.*;
+import forest.inventorysystem.model.InHouse;
+import forest.inventorysystem.model.Inventory;
+import forest.inventorysystem.model.Outsourced;
+import forest.inventorysystem.model.Part;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,7 +12,6 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import forest.inventorysystem.model.InHouse;
 
 import java.io.IOException;
 
@@ -78,54 +80,49 @@ public class ModifyPartController {
         machineIdLabel.setText("Company Name");
     }
 
+
+    // Not working, need to figure out
     public void onSaveButton(ActionEvent actionEvent) throws IOException {
+        try {
+            int id = Integer.parseInt(idText.getText());
+            String name = nameText.getText();
+            double price = Double.parseDouble(priceText.getText());
+            int stock = Integer.parseInt(invText.getText());
+            int min = Integer.parseInt(minText.getText());
+            int max = Integer.parseInt(maxText.getText());
+            int partIndex = Inventory.getAllParts().indexOf(selectedPart);
 
-        if (Integer.parseInt(minText.getText()) <= Integer.parseInt(maxText.getText())) {
-
-            if (inHouseButton.isSelected()) {
-                try {
-                    selectedPart.setName(nameText.getText());
-                    selectedPart.setStock(Integer.parseInt(invText.getText()));
-                    selectedPart.setPrice(Double.parseDouble(priceText.getText()));
-                    selectedPart.setMax(Integer.parseInt(maxText.getText()));
-                    selectedPart.setMin(Integer.parseInt(minText.getText()));
-                    ((InHouse) selectedPart).setMachineId(Integer.parseInt(machineIdText.getText()));
-                } catch (Exception e) {
-                    Alert exceptionAlert = new Alert(Alert.AlertType.ERROR, e.toString());
-                    exceptionAlert.setTitle("Error");
-                    exceptionAlert.setHeaderText("Please verify values in form.\nPlease refer to the following exception:");
-                    exceptionAlert.showAndWait();
-                }
+            if (stock > max || stock < min || stock < 0) {
+                Alert stockError = new Alert(Alert.AlertType.ERROR, "The error is due to one of the following:\nInventory is equal or less than zero.\nInventory is less than Min or greater than Max.\nMin is greater than max.");
+                stockError.setTitle("Error: Stock, Min, Max");
+                stockError.setHeaderText("Please verify the values in: Inv, Max, and Min.");
+                stockError.showAndWait();
             } else {
-                try {
-                    selectedPart.setStock(Integer.parseInt(invText.getText()));
-                    selectedPart.setPrice(Double.parseDouble(priceText.getText()));
-                    selectedPart.setMax(Integer.parseInt(maxText.getText()));
-                    selectedPart.setMin(Integer.parseInt(minText.getText()));
-                    ((Outsourced) selectedPart).setCompanyName(machineIdText.getText());
-                    selectedPart.setName(nameText.getText());
+                if (inHouseButton.isSelected()) {
+                    int machineId = Integer.parseInt(machineIdText.getText());
+                    InHouse newPart = new InHouse(id, name, price, stock, min, max, machineId);
+                    Inventory.updatePart(partIndex, newPart);
 
-                } catch (Exception e) {
-                    Alert exceptionAlert = new Alert(Alert.AlertType.ERROR, "Error. Please check correct values in form:\n" + e.toString());
-                    exceptionAlert.setTitle("Error");
-                    exceptionAlert.setHeaderText("");
-                    exceptionAlert.showAndWait();
+                } else if (outsourcedButton.isSelected()) {
+                    String companyName = machineIdText.getText();
+                    Outsourced newPart = new Outsourced(id, name, price, stock, min, max, companyName);
+                    Inventory.updatePart(partIndex, newPart);
                 }
-
+                FXMLLoader fxmlLoader = new FXMLLoader(InventorySystem.class.getResource("MainScreen.fxml"));
+                Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                Scene scene = new Scene(fxmlLoader.load(), 948, 337);
+                stage.setTitle("C482 - Performance Assessment");
+                stage.setScene(scene);
+                stage.show();
             }
-            FXMLLoader fxmlLoader = new FXMLLoader(InventorySystem.class.getResource("MainScreen.fxml"));
-            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            Scene scene = new Scene(fxmlLoader.load(), 948, 337);
-            stage.setTitle("C482 - Performance Assessment");
-            stage.setScene(scene);
-            stage.show();
-        } else {
-            Alert minMaxAlert = new Alert(Alert.AlertType.ERROR, "Minimum value MUST be less than or equal to Maximum value.");
-            minMaxAlert.setTitle("Error: Min is larger than Max");
-            minMaxAlert.setHeaderText("");
-            minMaxAlert.showAndWait();
+        } catch (Exception e) {
+            Alert exception = new Alert(Alert.AlertType.ERROR, e.toString());
+            exception.setTitle("Error");
+            exception.setHeaderText("Please verify values in form.\nPlease refer to the exception message below for more information.");
+            exception.showAndWait();
         }
     }
+
 
 
     // When the Cancel button is clicked, user is returned to MainScreen

@@ -61,11 +61,11 @@ public class Inventory {
     }
 
     public static void updatePart(int index, Part selectedPart) {
-
+        allParts.set(index, selectedPart);
     }
 
     public static void updateProduct(int index, Product selectedProduct) {
-
+        allProducts.set(index, selectedProduct);
     }
 
     public static boolean deletePart(Part selectedPart) {
@@ -84,6 +84,10 @@ public class Inventory {
         } else {
             return false;
         }
+    }
+
+    public static int getPartIndex (Part part){
+        return allParts.indexOf(part);
     }
 
     public static ObservableList<Part> getAllParts() {
