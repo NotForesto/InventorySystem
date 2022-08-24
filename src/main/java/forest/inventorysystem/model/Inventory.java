@@ -4,6 +4,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 /**
+ * @author Forest Burchinal-Haj
+ */
+
+/**
  * The Inventory class holds all parts and products.
  */
 public class Inventory {

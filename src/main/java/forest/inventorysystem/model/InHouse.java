@@ -15,6 +15,7 @@ public class InHouse extends Part {
 
     /**
      * InHouse constructor, uses Part class super-constructor
+     *
      * @param id
      * @param name
      * @param price
@@ -29,7 +30,6 @@ public class InHouse extends Part {
     }
 
     /**
-     *
      * @param machineId the machineId to set
      */
     public void setMachineId(int machineId) {
@@ -37,7 +37,6 @@ public class InHouse extends Part {
     }
 
     /**
-     *
      * @return the machineId
      */
     public int getMachineId() {

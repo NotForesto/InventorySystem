@@ -10,7 +10,13 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
 
-/** The InventorySystem class creates teh Inventory Management application and then adds test data.*/
+/**
+ * @author Forest Burchinal-Haj
+ */
+
+/**
+ * The InventorySystem class creates the Inventory Management application and then adds test data
+ */
 public class InventorySystem extends Application {
 
     public static int partIdCount=0;

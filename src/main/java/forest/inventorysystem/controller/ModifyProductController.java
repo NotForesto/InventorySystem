@@ -106,13 +106,20 @@ public class ModifyProductController {
     /**
      * The onAddButton() method adds part highlighted in PartsTable to assocParts Observable list.
      * AssociatedPartsTable is then reloaded so new assocPart is shown in table.
-     *
+     * Will error alert if no part is selected
      * @param actionEvent refers to the AddButton being pressed.
      */
     public void onAddButton(ActionEvent actionEvent) {
         Part selectedPart = (Part) PartsTable.getSelectionModel().getSelectedItem();
-        assocParts.add(selectedPart);
-        AssociatedPartsTable.setItems(assocParts);
+        if(selectedPart == null) {
+            Alert noPart = new Alert(Alert.AlertType.ERROR, "Please select a part that you would like to associate to the product.");
+            noPart.setTitle("Error: No part selected");
+            noPart.setHeaderText("No part selected.");
+            noPart.showAndWait();
+        } else {
+            assocParts.add(selectedPart);
+            AssociatedPartsTable.setItems(assocParts);
+        }
     }
 
     /**

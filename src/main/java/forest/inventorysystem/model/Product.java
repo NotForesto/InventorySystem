@@ -4,6 +4,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 /**
+ * @author Forest Burchinal-Haj
+ */
+
+/**
  * A class that represents product objects
  */
 public class Product {

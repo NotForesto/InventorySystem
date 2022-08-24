@@ -1,6 +1,10 @@
 package forest.inventorysystem.model;
 
 /**
+ * @author Forest Burchinal-Haj
+ */
+
+/**
  * The Outsourced class is a subclass of the Abstract Part class
  */
 public class Outsourced extends Part {
