@@ -17,6 +17,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Optional;
 
+import static forest.inventorysystem.model.Inventory.lookupPart;
+
 /**
  * @author Forest Burchinal-Haj
  */
@@ -107,6 +109,7 @@ public class ModifyProductController {
      * The onAddButton() method adds part highlighted in PartsTable to assocParts Observable list.
      * AssociatedPartsTable is then reloaded so new assocPart is shown in table.
      * Will error alert if no part is selected
+     *
      * @param actionEvent refers to the AddButton being pressed.
      */
     public void onAddButton(ActionEvent actionEvent) {
@@ -220,5 +223,31 @@ public class ModifyProductController {
                 }
             }
         }
+    }
+
+    /**
+     * The onPartSearchField() method searches for parts using both partialName and exact ID matching
+     *
+     * @param actionEvent refers to the search bar being activated (via enter key or on screen button).
+     */
+    public void onPartSearchField(ActionEvent actionEvent) {
+        String q = PartSearchField.getText();
+        ObservableList<Part> parts = lookupPart(q);
+        if (parts.size() == 0) {
+            try {
+                int partID = Integer.parseInt(q);
+                Part part = lookupPart(partID);
+                if (part != null) {
+                    parts.add(part);
+                }
+            } catch (NumberFormatException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Your query:\n" + PartSearchField.getText() + "\nDid not return any parts.");
+                alert.setTitle("Error: Part not found!");
+                alert.setHeaderText("");
+                alert.show();
+            }
+        }
+        PartsTable.setItems(parts);
+        PartSearchField.setText("");
     }
 }
